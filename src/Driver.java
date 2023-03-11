@@ -20,16 +20,17 @@ public class Driver {
         
     	Network objNetwork = new Network( );            /* Activate the network */
         objNetwork.start();
-
-        Server thread1 = new Server("thread1");
-        thread1.start();
-        Server thread2 = new Server("thread2");
-        thread2.start();
-
+        Server objserver1 = new Server("THREAD1");
+        objserver1.start();
+        Server objserver2 = new Server("THREAD2");
+        objserver2.start();
         Client objClient1 = new Client("sending");          /* Start the sending client thread */
         objClient1.start();
         Client objClient2 = new Client("receiving");        /* Start the receiving client thread */
         objClient2.start();
+        
+      /*..............................................................................................................................................................*/
+       
     }
     
  }
