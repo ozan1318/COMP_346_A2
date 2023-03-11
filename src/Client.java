@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -109,7 +110,7 @@ public class Client extends Thread {
         
         try
         {
-        	inputStream = new Scanner(new FileInputStream("transaction.txt"));
+        	inputStream = new Scanner(new FileInputStream("transaction2.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -156,9 +157,9 @@ public class Client extends Thread {
          {  
 	
         	 while (Network.getInBufferStatus().equals("full"))
-        	{
+        	{ 
          	  Thread.yield(); 	/* Yield the cpu if the network input buffer is full */
-            }
+          }
                                               	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
@@ -176,22 +177,23 @@ public class Client extends Thread {
      * @return 
      * @param transact
      */
-     public void receiveTransactions(Transactions[] transact)
+     public void receiveTransactions(Transactions transact)
      {
          int i = 0;     /* Index of transaction array */
          
          while (i < getNumberOfTransactions())
          {   
-        	while (Network.getOutBufferStatus().equals("empty"))
-        	{
-                Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
-            }
+        	 while (Network.getOutBufferStatus().equals("empty")) 
+        	 { 
+        		 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
+        		 
+        	 }
                                                                             	
-            Network.receive(transact[i]);                               	/* Receive updated transaction from the network buffer */
+            Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
-            //System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact[i].getAccountNumber());
+            /* System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); */
             
-            System.out.println(transact[i]);                               /* Display updated transaction */
+            System.out.println(transact);                               /* Display updated transaction */    
             i++;
          } 
     }
@@ -217,33 +219,29 @@ public class Client extends Thread {
     {   
     	Transactions transact = new Transactions();
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
-    	
-    	//sendClientStartTime = System.currentTimeMillis();
-    	//receiveClientStartTime= System.currentTimeMillis();
-    	
+     
+         /*................................................................................................................................................................................................................*/
+              
     	if (clientOperation.equals("sending")){
     		sendClientStartTime = System.currentTimeMillis();
     		sendTransactions();
             sendClientEndTime = System.currentTimeMillis();
             System.out.println("\n Terminating client send thread - " + " Running time " + (sendClientEndTime - sendClientStartTime) + " milliseconds");
-
-            Network.setClientConnectionStatus("disconnected");
+            
             
         }
         else if (clientOperation.equals("receiving")){
         	receiveClientStartTime= System.currentTimeMillis();
-        	receiveTransactions(transaction); 
+        	receiveTransactions(transact); 
             
             receiveClientEndTime = System.currentTimeMillis();
             System.out.println("\n Terminating client receive thread - " + " Running time " + (receiveClientEndTime - receiveClientStartTime) + " milliseconds");
             
-        	Network.setClientConnectionStatus("disconnected");
-        	
-        	
-        }
-    	//objNetwork.setClientConnectionStatus("disconnected");
+        	Network.setClientConnectionStatus("disconnected");        
     	
-
-    	/* Implement here the code for the run method ... */
+    	//System.out.println("\n Terminating client receiving thread - " + " Running time " +  (receiveClientEndTime - receiveClientStartTime));
+            }
+            }
+                
     }
-}
+
