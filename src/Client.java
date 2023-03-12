@@ -114,7 +114,7 @@ public class Client extends Thread {
         }
         catch(FileNotFoundException e)
         {
-            System.out.println("File transaction.txt was not found");
+            System.out.println("File transaction2.txt was not found");
             System.out.println("or could not be opened.");
             System.exit(0);
         }
@@ -156,10 +156,10 @@ public class Client extends Thread {
          while (i < getNumberOfTransactions())
          {  
 	
-        	 while (Network.getInBufferStatus().equals("full"))
+        	 /*while (Network.getInBufferStatus().equals("full"))
         	{ 
-         	  Thread.yield(); 	/* Yield the cpu if the network input buffer is full */
-          }
+         	  Thread.yield();*/ 	/* Yield the cpu if the network input buffer is full */
+          //}
                                               	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
@@ -183,11 +183,11 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {   
-        	 while (Network.getOutBufferStatus().equals("empty")) 
+        	 /*while (Network.getOutBufferStatus().equals("empty"))
         	 { 
-        		 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
+        		 Thread.yield();*/ 	/* Yield the cpu if the network output buffer is full */
         		 
-        	 }
+        	 //}
                                                                             	
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
