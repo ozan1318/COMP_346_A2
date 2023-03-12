@@ -1,0 +1,3 @@
+There was not a very significant difference between busy waiting and semaphores. This may be because the system is too fast for the relatively small differences in wait times, or because of other parts of the code having a larger impact on the runtime (such as the sleep statements).
+
+The program with 3 threads ran consistently 100ms faster in my system, or around 22%, from an initial average of 450ms to 350ms. Such a specific differece may point to the sleep statements being spread more evenly among the server threads.
